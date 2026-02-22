@@ -1,4 +1,8 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Lightbox({ images, currentIndex, setCurrentIndex }) {
+  if (!images || currentIndex === null) return null;
+
   const close = () => setCurrentIndex(null);
 
   const prev = () => {
@@ -38,17 +42,26 @@ function Lightbox({ images, currentIndex, setCurrentIndex }) {
 
       {/* Image */}
       <img
-        src={`http://localhost:5000/uploads/${currentImage.image}`}
-        style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
+        src={`${API_URL}/uploads/${currentImage.image}`}
+        alt="gallery"
+        style={{
+          maxHeight: "75%",
+          maxWidth: "85%",
+          objectFit: "contain",
+          borderRadius: "8px"
+        }}
         className="mb-3"
       />
 
-      {/* Description */}
+      {/* Description + Date */}
       <div
         className="text-white text-center px-4"
-        style={{ maxWidth: "500px" }}
+        style={{ maxWidth: "600px" }}
       >
-        {/* <h5>{currentImage.description}</h5> */}
+        <h5>{currentImage.description}</h5>
+        <small className="text-muted">
+          {new Date(currentImage.createdAt).toLocaleString()}
+        </small>
       </div>
 
       {/* Next Button */}
